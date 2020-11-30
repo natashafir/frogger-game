@@ -10,13 +10,16 @@ let Enemy = function (x, y, speed) {
     this.sprite = 'images/enemy-bug.png';
 };
 
-let bug = new Enemy(200, 300, 20);
+let bug = new Enemy(0, 230, 60);
 
 // Update the enemy's position, required method for game
 // Parameter: dt, a time delta between ticks
 
 Enemy.prototype.update = function (dt) {
-
+    this.x += this.speed * dt;
+    if (this.x > 500){
+        this.x = 0;
+    }
     // You should multiply any movement by the dt parameter
     // which will ensure the game runs at the same speed for
     // all computers.
@@ -39,6 +42,10 @@ let Player = function (x, y) {
 };
 
 Player.prototype.update = function () {
+    if (this.y == 0){
+        this.y = 400;
+        console.log(this.y)
+    }
 
 };
 
@@ -58,6 +65,12 @@ Player.prototype.handleInput = function (key) {
     }
     if (key == 'down' && this.y < 400) {
         this.y += 85;
+    }
+    if (this.y < 0) {
+        setTimeout(function () {
+            player.x = 202;
+            player.y = 400
+        }, 200)
     }
 };
 
