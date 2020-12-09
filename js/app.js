@@ -1,9 +1,3 @@
-// Enemies our player must avoid
-// Variables applied to each of our instances go here,
-// we've provided one for you to get started
-// The image/sprite for our enemies, this uses
-// a helper we've provided to easily load images
-
 const STEP_X = 101;
 const STEP_Y = 85;
 const BUGS_START = -100;
@@ -15,38 +9,38 @@ const INITIAL_POSITION_Y = 400;
 const BUG_SIZE = 75;
 const FIELD_WIDTH = 404;
 const FIELD_HEIGHT = 400;
+const allEnemies = [];
 
-let Enemy = function (x, y, speed) {
+let Enemy = function (x, y, speed, player) {
     this.x = x;
     this.y = y;
     this.speed = speed;
+    this.player = player;
     this.sprite = 'images/enemy-bug.png';
 };
 
 // Update the enemy's position, required method for game
 // Parameter: dt, a time delta between ticks
-
+// You should multiply any movement by the dt parameter
+// which will ensure the game runs at the same speed for
+// all computers.
 Enemy.prototype.update = function (dt) {
     this.x += this.speed * dt;
-    // this.speed = (Math.floor(Math.random() * Math.floor(5100)) + 8000) * dt;
     if (this.x > BUGS_END) {
         this.x = BUGS_START;
         this.speed = (Math.floor(Math.random() * MIN_SPEED) + MAX_SPEED) * dt;
     }
+    if (this.Collision()) player.resetPosition();
+};
 
+Enemy.prototype.Collision = function () {
     if (player.y == this.y &&
         player.x < this.x + BUG_SIZE &&
         this.x < player.x + BUG_SIZE) {
-        player.x = INITIAL_POSITION_X;
-        player.y = INITIAL_POSITION_Y;
     }
-    // You should multiply any movement by the dt parameter
-    // which will ensure the game runs at the same speed for
-    // all computers.
 };
 
 // Draw the enemy on the screen, required method for game
-
 Enemy.prototype.render = function () {
     ctx.drawImage(Resources.get(this.sprite), this.x, this.y);
 };
@@ -67,9 +61,13 @@ Player.prototype.update = function () {
     }
 };
 
+Player.prototype.resetPosition = function () {
+    player.x = INITIAL_POSITION_X;
+    player.y = INITIAL_POSITION_Y;
+};
+
 Player.prototype.render = function () {
     ctx.drawImage(Resources.get(this.sprite), this.x, this.y);
-    // console.log ("this x = " + this.x + "this.y = " + this.y);
 };
 
 Player.prototype.handleInput = function (key) {
@@ -92,10 +90,6 @@ Player.prototype.handleInput = function (key) {
         }, 200)
     }
 };
-
-// Now instantiate your objects.
-
-const allEnemies = [];
 
 let bugLocation = [60, 145, 230];
 
