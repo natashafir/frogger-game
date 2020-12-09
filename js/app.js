@@ -34,10 +34,7 @@ Enemy.prototype.update = function (dt) {
 };
 
 Enemy.prototype.Collision = function () {
-    if (player.y == this.y &&
-        player.x < this.x + BUG_SIZE &&
-        this.x < player.x + BUG_SIZE) {
-    }
+    return (player.y == this.y && player.x < this.x + BUG_SIZE && this.x < player.x + BUG_SIZE);
 };
 
 // Draw the enemy on the screen, required method for game
